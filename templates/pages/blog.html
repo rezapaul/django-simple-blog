@@ -1,0 +1,260 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} Blog Page {% endblock %}
+
+{% block content %}
+<!-- Alerts -->
+{% include 'partials/_alerts.html' %}
+<section class="breadcrumb breadcrumb_bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb_iner text-center">
+                        <div class="breadcrumb_iner_item">
+                            <h2>blog</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- breadcrumb start-->
+
+    <!--================Blog Area =================-->
+    <section class="blog_area section_padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mb-5 mb-lg-0">
+                    <div class="blog_left_sidebar">
+                    {% if posts %}
+                       {% for post in posts %}
+                            <article class="blog_item">
+                                <div class="blog_item_img">
+                                    <img class="card-img rounded-0" src="{{post.image.url}}" alt="">
+                                    <a href="#" class="blog_item_date">
+                                        <h3>15</h3>
+                                        <p>Jan</p>
+                                    </a>
+                                </div>
+
+                                <div class="blog_details">
+                                    <a class="d-inline-block" href="{% url 'post' post.id %}">
+                                        <h2>{{post.subhead}}</h2>
+                                    </a>
+                                    <p>{{post.text | slice:":100"}}</p>
+                                    
+                                </div>
+                            </article>
+                        {% endfor %}
+                    {% else%}
+                        <p>No Post Founded</p>    
+                    {% endif %}    
+
+
+                        <div class="col text-center">
+                        <nav class="blog-pagination justify-content-center d-flex">
+                                    {% if posts.has_other_pages %}
+                                    <ul class="pagination">
+                                    <!-- in baraye feleshe aqabe yaeni biad safhe qabl -->
+                                    {% if posts.has_previous %}
+                                        <li class="page-item">
+                                        <a class="page-link" href="?page={{posts.prevoius_page_number}}">&lt;</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item">
+                                        <a class="page-link">&lt;</a>
+                                        </li>
+                                    {% endif %}
+                        
+                                    <!-- in baraye namayeshe safahate digas shomare hashun -->
+                                    {% for i in posts.paginator.page_range %}
+                                        {% if posts.number == i %}
+                                            <li class="page-item active">
+                                            <a class="page-link">{{i}}</a>
+                                            </li>
+                                        {% else %}
+                                            <li>
+                                            <a class="page-link" href="?page={{i}}">{{i}}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                        
+                                    <!-- in baraye feleshe jeloue yaeni bere safhe baed -->
+                                    {% if posts.has_next %}
+                                        <li class="page-item">
+                                        <a class="page-link" href="?page={{posts.next_page_number}}" >&gt;</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item">
+                                        <a class="page-link">&gt;</a>
+                                        </li>
+                                    {% endif %}
+                        
+                                    </ul>
+                                {% endif %}
+                                </nav>
+          </div> 
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="blog_right_sidebar">
+                        <aside class="single_sidebar_widget search_widget">
+                            <form action="#">
+                               <div class="form-group">
+                                  <div class="input-group mb-3">
+                                     <input type="text" class="form-control" placeholder='Search Keyword'
+                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
+                                     <div class="input-group-append">
+                                        <button class="btn" type="button"><i class="ti-search"></i></button>
+                                     </div>
+                                  </div>
+                               </div>
+                               <button class="button rounded-0 primary-bg text-white w-100 btn_1" type="submit">Search</button>
+                            </form>
+                         </aside>
+
+                        <aside class="single_sidebar_widget post_category_widget">
+                            <h4 class="widget_title">Category</h4>
+                            <ul class="list cat-list">
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Resaurant food</p>
+                                        <p>(37)</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Travel news</p>
+                                        <p>(10)</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Modern technology</p>
+                                        <p>(03)</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Product</p>
+                                        <p>(11)</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Inspiration</p>
+                                        <p>21</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Health Care (21)</p>
+                                        <p>09</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </aside>
+
+                        <aside class="single_sidebar_widget popular_post_widget">
+                            <h3 class="widget_title">Recent Post</h3>
+                            {% for postt in posts2 %}
+                                <div class="media post_item">
+                                <img src="{{postt.image.url}}" style="width:120px;height:80px;" alt="post">
+                                <div class="media-body">
+                                    <a href="{% url 'post' postt.id %}">
+                                        <h3>{{postt.subhead}}</h3>
+                                    </a>
+                                    <p>{{postt.date}}</p>
+                                </div>
+                                </div>
+                            {% endfor %}
+                        </aside>
+                        <aside class="single_sidebar_widget tag_cloud_widget">
+                            <h4 class="widget_title">Tag Clouds</h4>
+                            <ul class="list">
+                                <li>
+                                    <a href="#">project</a>
+                                </li>
+                                <li>
+                                    <a href="#">love</a>
+                                </li>
+                                <li>
+                                    <a href="#">technology</a>
+                                </li>
+                                <li>
+                                    <a href="#">travel</a>
+                                </li>
+                                <li>
+                                    <a href="#">restaurant</a>
+                                </li>
+                                <li>
+                                    <a href="#">life style</a>
+                                </li>
+                                <li>
+                                    <a href="#">design</a>
+                                </li>
+                                <li>
+                                    <a href="#">illustration</a>
+                                </li>
+                            </ul>
+                        </aside>
+
+
+                        <aside class="single_sidebar_widget instagram_feeds">
+                            <h4 class="widget_title">Instagram Feeds</h4>
+                            <ul class="instagram_row flex-wrap">
+                                <li>
+                                    <a href="#">
+                                        <img class="img-fluid" src="/static/img/post/post_5.png" alt="">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img class="img-fluid" src="/static/img/post/post_6.png" alt="">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img class="img-fluid" src="/static/img/post/post_7.png" alt="">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img class="img-fluid" src="/static/img/post/post_8.png" alt="">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img class="img-fluid" src="/static/img/post/post_9.png" alt="">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img class="img-fluid" src="/static/img/post/post_10.png" alt="">
+                                    </a>
+                                </li>
+                            </ul>
+                        </aside>
+
+
+                        <aside class="single_sidebar_widget newsletter_widget">
+                            <h4 class="widget_title">Newsletter</h4>
+
+                            <form action="#">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" onfocus="this.placeholder = ''"
+                                        onblur="this.placeholder = 'Enter email'" placeholder='Enter email' required>
+                                </div>
+                                <button class="button rounded-0 primary-bg text-white w-100 btn_1"
+                                    type="submit">Subscribe</button>
+                            </form>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
