@@ -7,7 +7,7 @@
 
 1-Install python3, pip3, virtualenv, Postgresql in your system.
 
-2-Clone the project ``` git clone https://github.com/rezapaul/django-simple-blog/ && cd blog ```
+2-Clone the project ``` git clone https://github.com/rezapaul/django-simple-blog/ && cd django-simple-blog ```
 
 3-Create the db and grant all access to the specified user with specified password.
 
